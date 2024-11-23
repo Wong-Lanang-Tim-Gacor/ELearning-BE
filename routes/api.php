@@ -10,5 +10,5 @@ Route::get('/user', function (Request $request) {
 Route::prefix('/auth')->group(function () {
     Route::post('login',[\App\Http\Controllers\Auth\LoginController::class,'handle'])->name('login');
     Route::post('register',[\App\Http\Controllers\Auth\RegisterController::class,'handle'])->name('register');
-    Route::post('logout',[\App\Http\Controllers\Auth\LogoutController::class,'handle'])->name('logout');
+    Route::post('logout',[\App\Http\Controllers\Auth\LogoutController::class,'handle'])->name('logout')->middleware('auth:sanctum');
 });
