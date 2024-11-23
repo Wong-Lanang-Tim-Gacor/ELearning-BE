@@ -1,66 +1,287 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Login API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Endpoint
+`POST {{base_url}}/auth/login`
 
-## About Laravel
+### Deskripsi
+Endpoint ini digunakan untuk otentikasi pengguna dengan menggunakan **username** dan **password**. Jika kredensial valid, server akan mengembalikan informasi pengguna dan token akses.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Request
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Header
+| Key           | Value             |
+|---------------|-------------------|
+| Content-Type  | application/json  |
 
-## Learning Laravel
+#### Body
+```json
+{
+    "username": "sschambergerss",
+    "password": "password"
+}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Response
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### 1. **Berhasil**
+**Status Code**: `200 OK`
 
-## Laravel Sponsors
+**Contoh Respons**:
+```json
+{
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": null
+    },
+    "data": {
+        "id": 2,
+        "name": "Ms. Lois Nikolaus",
+        "email": "eldridge.blick@example.org",
+        "username": "sschamberger",
+        "phone": "669-597-8567",
+        "region": "Cuba",
+        "photo_profile": "user-default.png",
+        "created_at": "2024-11-23T08:25:30.000000Z",
+        "updated_at": "2024-11-23T08:25:30.000000Z",
+        "token": "23|nbiZftbtLsrRyfCcbpD4486CYeTYhUVUZU530f5X47573890"
+    }
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Penjelasan**:
+- `meta`: Berisi metadata dari respons.
+  - `code`: Status kode HTTP.
+  - `status`: Status hasil operasi (`success` atau `error`).
+  - `message`: Pesan tambahan (opsional, dapat berupa `null`).
+- `data`: Informasi pengguna yang berhasil login.
+  - `id`: ID unik pengguna.
+  - `name`: Nama lengkap pengguna.
+  - `email`: Email pengguna.
+  - `username`: Username pengguna.
+  - `phone`: Nomor telepon pengguna.
+  - `region`: Wilayah pengguna.
+  - `photo_profile`: Nama file foto profil (default: `user-default.png`).
+  - `created_at`: Waktu pembuatan akun.
+  - `updated_at`: Waktu terakhir akun diperbarui.
+  - `token`: Token autentikasi untuk akses ke endpoint yang dilindungi.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### 2. **Gagal: Username/Password Salah**
+**Status Code**: `400 Bad Request`
 
-## Contributing
+**Contoh Respons**:
+```json
+{
+    "meta": {
+        "code": 400,
+        "status": "error",
+        "message": null
+    },
+    "data": "No query results for model [App\\Models\\User]."
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Penjelasan**:
+- `meta`: Metadata dari respons.
+  - `code`: Status kode HTTP.
+  - `status`: Status hasil operasi (`error`).
+  - `message`: Pesan tambahan (opsional, dapat berupa `null`).
+- `data`: Menyediakan informasi kesalahan, dalam hal ini menunjukkan bahwa pengguna tidak ditemukan.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Catatan
+- Pastikan untuk menggunakan **token** yang diterima dalam respons berhasil untuk mengakses endpoint yang dilindungi.
+- Jika kredensial salah, server akan merespons dengan kode status `400` dan pesan kesalahan.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Register API
 
-## License
+### Endpoint
+`POST {{base_url}}/auth/register`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Deskripsi
+Endpoint ini digunakan untuk mendaftarkan pengguna baru dengan memberikan informasi yang diperlukan seperti nama, email, username, password, nomor telepon, wilayah, dan (opsional) foto profil.
+
+---
+
+### Request
+
+#### Header
+| Key           | Value             |
+|---------------|-------------------|
+| Content-Type  | application/json  |
+
+#### Body
+```json
+{
+    "name": "Sophia Williams",
+    "email": "sophia.williams@example.com",
+    "username": "sophia_w",
+    "password": "Sophia123!",
+    "phone": "081198765432",
+    "region": "Yogyakarta", 
+    "photo_profile": "optional-image.png"
+}
+```
+
+> **Catatan**: 
+> - **`photo_profile`** boleh dikosongkan. Jika kosong, server akan menggunakan nilai default (`user-default.png`).
+
+---
+
+### Response
+
+#### 1. **Berhasil**
+**Status Code**: `200 OK`
+
+**Contoh Respons**:
+```json
+{
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": "Register success"
+    },
+    "data": {
+        "name": "Sophia Williamss",
+        "email": "sophia.williamssa@example.com",
+        "username": "sophia_dw",
+        "phone": "081198765432",
+        "region": "Yogyakarta",
+        "updated_at": "2024-11-23T16:00:55.000000Z",
+        "created_at": "2024-11-23T16:00:55.000000Z",
+        "id": 15,
+        "token": "24|yQBVaHIcESLGGb36DBTjH38tooe17qmaFkCCgxAeacb13ce7"
+    }
+}
+```
+
+**Penjelasan**:
+- `meta`: Metadata dari respons.
+  - `code`: Status kode HTTP.
+  - `status`: Status hasil operasi (`success`).
+  - `message`: Pesan tambahan untuk menggambarkan hasil operasi.
+- `data`: Informasi pengguna yang baru saja terdaftar.
+  - `name`: Nama lengkap pengguna.
+  - `email`: Email pengguna.
+  - `username`: Username pengguna.
+  - `phone`: Nomor telepon pengguna.
+  - `region`: Wilayah pengguna.
+  - `created_at`: Waktu pembuatan akun.
+  - `updated_at`: Waktu terakhir akun diperbarui.
+  - `id`: ID unik pengguna.
+  - `token`: Token autentikasi untuk akses ke endpoint yang dilindungi.
+
+---
+
+#### 2. **Gagal: Data Dobel**
+**Status Code**: `422 Unprocessable Entity`
+
+**Contoh Respons**:
+```json
+{
+    "message": "The email has already been taken. (and 1 more error)",
+    "errors": {
+        "email": [
+            "The email has already been taken."
+        ],
+        "username": [
+            "The username has already been taken."
+        ]
+    }
+}
+```
+
+**Penjelasan**:
+- `message`: Deskripsi kesalahan secara umum.
+- `errors`: Daftar kesalahan yang lebih spesifik.
+  - `email`: Menyatakan bahwa email yang dimasukkan sudah digunakan oleh pengguna lain.
+  - `username`: Menyatakan bahwa username yang dimasukkan sudah digunakan oleh pengguna lain.
+
+---
+
+### Catatan
+- Pastikan **email** dan **username** bersifat unik.
+- Gunakan **token** yang diterima pada respons berhasil untuk mengakses endpoint lain yang membutuhkan autentikasi.
+- Validasi di sisi klien disarankan untuk menghindari pengiriman data duplikat sebelum request dikirim ke server.
+
+---
+
+## Logout API
+
+### Endpoint
+`POST {{base_url}}/auth/logout`
+
+### Deskripsi
+Endpoint ini digunakan untuk keluar dari sesi pengguna yang sedang login. Logout akan membatalkan token autentikasi yang digunakan.
+
+---
+
+### Request
+
+#### Header
+| Key           | Value                |
+|---------------|----------------------|
+| Authorization | Bearer `<token>`    |
+| Content-Type  | application/json     |
+
+> **Catatan**: Pastikan untuk menyertakan **Bearer Token** yang valid dalam header **Authorization**.
+
+#### Body
+Tidak diperlukan.
+
+---
+
+### Response
+
+#### 1. **Berhasil**
+**Status Code**: `200 OK`
+
+**Contoh Respons**:
+```json
+{
+    "meta": {
+        "code": 200,
+        "status": "success",
+        "message": "Logout success"
+    },
+    "data": null
+}
+```
+
+**Penjelasan**:
+- `meta`: Metadata dari respons.
+  - `code`: Status kode HTTP.
+  - `status`: Status hasil operasi (`success`).
+  - `message`: Pesan konfirmasi bahwa logout berhasil.
+- `data`: Berisi `null`, karena tidak ada data tambahan yang diperlukan untuk respons logout.
+
+---
+
+#### 2. **Gagal: Token Tidak Valid atau Tidak Disertakan**
+**Status Code**: `401 Unauthorized`
+
+**Contoh Respons**:
+```json
+{
+    "message": "Unauthenticated."
+}
+```
+
+**Penjelasan**:
+- `message`: Pesan kesalahan yang menunjukkan bahwa pengguna tidak diautentikasi. Ini terjadi jika token tidak valid, kadaluwarsa, atau tidak disertakan dalam permintaan.
+
+---
+
+### Catatan
+- Pastikan untuk menggunakan **Bearer Token** yang valid saat melakukan logout.
+- Setelah logout berhasil, token yang digunakan akan menjadi tidak valid dan tidak dapat digunakan untuk mengakses endpoint lain.
+- Jika mencoba mengakses endpoint yang membutuhkan autentikasi setelah logout, server akan merespons dengan pesan **"Unauthenticated."**
