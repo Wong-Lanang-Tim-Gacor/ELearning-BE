@@ -2,9 +2,13 @@
 
 namespace App\Helpers;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Format response.
+ */
 class ResponseHelper
 {
     /**
@@ -22,26 +26,6 @@ class ResponseHelper
     ];
 
     /**
-     * Create a JSON response.
-     *
-     * @param string $status
-     * @param string $message
-     * @param mixed $data
-     * @param int $code
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public static function jsonResponse($status = 'success', $message = 'Berhasil', $data = null, $code = 200)
-    {
-        $response = [
-            'status' => $status,
-            'message' => $message,
-            'data' => $data,
-        ];
-
-        return response()->json($response, $code);
-    }
-
-    /**
      * Give success response.
      * @param mixed|null $data
      * @param mixed|null $message
@@ -57,4 +41,22 @@ class ResponseHelper
         return response()->json(self::$response, self::$response['meta']['code']);
     }
 
+    /**
+     * Give error response.
+     * @param mixed|null $data
+     * @param mixed|null $message
+     * @param int $code
+     * @return JsonResponse
+     */
+    public static function error(mixed $data = null, mixed $message = null, int $code = Response::HTTP_BAD_REQUEST): JsonResponse
+    {
+        self::$response['meta']['status'] = 'error';
+        self::$response['meta']['code'] = $code;
+        self::$response['meta']['message'] = $message;
+        self::$response['data'] = $data;
+
+        $response = response()->json(self::$response, self::$response['meta']['code']);
+
+        throw new HttpResponseException($response);
+    }
 }
