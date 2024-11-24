@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Interface\Eloquent;
+namespace App\Contracts\Interfaces\Eloquent;
 
 interface GetInterface
 {
