@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,3 +13,6 @@ Route::prefix('/auth')->group(function () {
     Route::post('register',[\App\Http\Controllers\Auth\RegisterController::class,'handle'])->name('register');
     Route::post('logout',[\App\Http\Controllers\Auth\LogoutController::class,'handle'])->name('logout')->middleware('auth:sanctum');
 });
+
+Route::apiResource('categories', CategoryController::class);
+
