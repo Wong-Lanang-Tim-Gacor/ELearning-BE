@@ -18,11 +18,15 @@ class ResponseHelper
      */
     public static array $response = [
         'meta' => [
-            'code' => null,
+            // 'code' => null,
             'status' => 'success',
             'message' => null,
         ],
         'data' => null,
+    ];
+
+    public static array $code = [
+        'code' => null,
     ];
 
     /**
@@ -35,10 +39,10 @@ class ResponseHelper
     public static function success(mixed $data = null, string $message = null, int $code = Response::HTTP_OK): JsonResponse
     {
         self::$response['meta']['message'] = $message;
-        self::$response['meta']['code'] = $code;
+        self::$code['code'] = $code;
         self::$response['data'] = $data;
 
-        return response()->json(self::$response, self::$response['meta']['code']);
+        return response()->json(self::$response, self::$code['code']);
     }
 
     /**
@@ -51,11 +55,11 @@ class ResponseHelper
     public static function error(mixed $data = null, mixed $message = null, int $code = Response::HTTP_BAD_REQUEST): JsonResponse
     {
         self::$response['meta']['status'] = 'error';
-        self::$response['meta']['code'] = $code;
+        self::$code['code'] = $code;
         self::$response['meta']['message'] = $message;
         self::$response['data'] = $data;
 
-        $response = response()->json(self::$response, self::$response['meta']['code']);
+        $response = response()->json(self::$response, self::$code['code']);
 
         throw new HttpResponseException($response);
     }

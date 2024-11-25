@@ -22,7 +22,7 @@ class CategoryController extends Controller
             $categories = $this->categoryRepository->get();
             return ResponseHelper::success($categories, 'Categories retrieved successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error([], $e->getMessage());
         }
     }
 
@@ -32,7 +32,7 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->store($request->validated());
             return ResponseHelper::success($category, 'Category created successfully.', 201);
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error($request->all(), $e->getMessage());
         }
     }
 
@@ -42,7 +42,7 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->show($id);
             return ResponseHelper::success($category, 'Category retrieved successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error($id, $e->getMessage());
         }
     }
 
@@ -50,9 +50,9 @@ class CategoryController extends Controller
     {
         try {
             $category = $this->categoryRepository->update($id, $request->validated());
-            return ResponseHelper::success($category, 'Category updated successfully.');
+            return ResponseHelper::success($request->all(), 'Category updated successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error($id, $e->getMessage());
         }
     }
 
