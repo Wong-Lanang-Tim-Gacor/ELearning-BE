@@ -12,15 +12,15 @@ class LoginController extends Controller
 {
     public function handle(Request $request)
     {
-        try{
+        try {
             $user = User::query()->where('username', $request->username)->firstOrFail();
-            if($user && Hash::check($request->password, $user->password)) {
+            if ($user && Hash::check($request->password, $user->password)) {
                 $user['token'] = $user->createToken($request->username)->plainTextToken;
                 return ResponseHelper::success($user);
-            } else{
-                return ResponseHelper::error("Username atau password salah");
+            } else {
+                return ResponseHelper::error($request->all(), message: "Invalid username or password");
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return ResponseHelper::error($e->getMessage());
         }
     }
