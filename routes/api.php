@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseModuleController;
+use App\Http\Controllers\ModuleMaterialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,5 @@ Route::prefix('/auth')->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('courses', CourseController::class);
     Route::apiResource('course-modules', CourseModuleController::class);
+    Route::apiResource('module-materials', ModuleMaterialController::class);
 // });
