@@ -38,6 +38,7 @@ class ResponseHelper
      */
     public static function success(mixed $data = null, string $message = null, int $code = Response::HTTP_OK): JsonResponse
     {
+        self::$response['meta']['status'] = 'success';
         self::$response['meta']['message'] = $message;
         self::$code['code'] = $code;
         self::$response['data'] = $data;
