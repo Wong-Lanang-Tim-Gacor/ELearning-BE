@@ -42,7 +42,7 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->show($id);
             return ResponseHelper::success($category, 'Category retrieved successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($id, $e->getMessage());
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->update($id, $request->validated());
             return ResponseHelper::success($request->all(), 'Category updated successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($id, $e->getMessage());
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ class CategoryController extends Controller
 
             return ResponseHelper::success(null, 'Category deleted successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 }

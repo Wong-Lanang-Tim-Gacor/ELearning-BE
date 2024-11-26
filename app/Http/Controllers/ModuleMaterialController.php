@@ -42,7 +42,7 @@ class ModuleMaterialController extends Controller
             $material = $this->moduleMaterialRepository->show($id);
             return ResponseHelper::success($material, 'Module material retrieved successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($id, $e->getMessage());
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ class ModuleMaterialController extends Controller
             $this->moduleMaterialRepository->update($id, $request->validated());
             return ResponseHelper::success($request->all(), 'Module material updated successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($id, $e->getMessage());
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ class ModuleMaterialController extends Controller
 
             return ResponseHelper::success(null, 'Module material deleted successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 }

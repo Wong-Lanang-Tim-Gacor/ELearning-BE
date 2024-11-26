@@ -42,7 +42,7 @@ class CourseModuleController extends Controller
             $module = $this->courseModuleRepository->show($id);
             return ResponseHelper::success($module, 'Course module retrieved successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($id, $e->getMessage());
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ class CourseModuleController extends Controller
             $this->courseModuleRepository->update($id, $request->validated());
             return ResponseHelper::success($request->all(), 'Course module updated successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($id, $e->getMessage());
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ class CourseModuleController extends Controller
 
             return ResponseHelper::success(null, 'Course module deleted successfully.');
         } catch (\Exception $e) {
-            return ResponseHelper::error($e->getMessage(), 500);
+            return ResponseHelper::error(null, $e->getMessage());
         }
     }
 }
