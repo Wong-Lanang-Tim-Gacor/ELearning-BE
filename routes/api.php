@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,5 +15,7 @@ Route::prefix('/auth')->group(function () {
     Route::post('logout',[\App\Http\Controllers\Auth\LogoutController::class,'handle'])->name('logout')->middleware('auth:sanctum');
 });
 
-Route::apiResource('categories', CategoryController::class);
-
+// Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('courses', CourseController::class);
+// });
