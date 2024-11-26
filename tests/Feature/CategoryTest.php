@@ -144,4 +144,54 @@ class CategoryTest extends TestCase
             ],
         ]);
     }
+
+    public function test_create_category_with_duplicate_name_fails(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user, ['*']);
+
+        $category = Category::factory()->create(['name' => 'Programming']);
+
+        $data = [
+            'name' => 'Programming',
+            'description' => 'This is a duplicate.',
+        ];
+
+        $response = $this->postJson('/api/categories', $data);
+
+        $response->assertStatus(422)
+            ->assertJson([
+                'meta' => [
+                    'status' => 'error',
+                    'message' => 'Validation failed.',
+                ],
+                'data' => [
+                    'name' => ['The name has already been taken.'],
+                ],
+            ]);
+    }
+
+    public function test_update_category_with_same_name_passes(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user, ['*']);
+
+        $category = Category::factory()->create(['name' => 'Programming']);
+
+        $data = [
+            'name' => 'Programming',
+            'description' => 'Updated description.',
+        ];
+
+        $response = $this->putJson("/api/categories/{$category->id}", $data);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'meta' => [
+                    'status' => 'success',
+                    'message' => 'Category updated successfully.',
+                ],
+                'data' => $data,
+            ]);
+    }
 }
