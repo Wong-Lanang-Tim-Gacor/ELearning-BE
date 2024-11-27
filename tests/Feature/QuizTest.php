@@ -150,4 +150,39 @@ class QuizTest extends TestCase
                 ],
             ]);
     }
+
+    public function test_can_get_quizzes_by_course_module(): void
+    {
+        // Membuat user dan autentikasi menggunakan Sanctum
+        $user = User::factory()->create();
+        Sanctum::actingAs($user, ['*']);
+
+        // Membuat beberapa course module
+        $courseModule1 = CourseModule::factory()->create();
+        $courseModule2 = CourseModule::factory()->create();
+
+        // Membuat beberapa kuis yang terhubung ke course modules yang berbeda
+        Quiz::factory(3)->create(['course_module_id' => $courseModule1->id]);
+        Quiz::factory(2)->create(['course_module_id' => $courseModule2->id]);
+
+        // Mengambil kuis berdasarkan course_module_id yang pertama
+        $response = $this->getJson("/api/quizzes/course-module/{$courseModule1->id}");
+
+        // Memastikan status respons 200 (OK)
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'meta' => ['status', 'message'],
+                'data' => [
+                    '*' => ['id', 'course_module_id', 'question', 'correct_choice_id'],
+                ],
+            ]);
+
+        // Memastikan hanya kuis yang terkait dengan courseModule1 yang ada dalam respons
+        $response->assertJsonCount(3, 'data'); // Memastikan ada 3 kuis untuk courseModule1
+
+        // Memeriksa apakah kuis tersebut memang terkait dengan courseModule1
+        foreach ($response->json('data') as $quiz) {
+            $this->assertEquals($courseModule1->id, $quiz['course_module_id']);
+        }
+    }
 }
