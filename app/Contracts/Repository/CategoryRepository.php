@@ -2,7 +2,6 @@
 
 namespace App\Contracts\Repository;
 
-use App\Contracts\Repository\BaseRepository;
 use App\Models\Category;
 use App\Contracts\Interfaces\CategoryInterface;
 use Illuminate\Database\QueryException;

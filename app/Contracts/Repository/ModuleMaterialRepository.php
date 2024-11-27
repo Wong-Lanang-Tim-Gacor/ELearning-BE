@@ -4,6 +4,7 @@ namespace App\Contracts\Repository;
 
 use App\Contracts\Interfaces\ModuleMaterialInterface;
 use App\Models\ModuleMaterial;
+use Illuminate\Database\QueryException;
 
 class ModuleMaterialRepository extends BaseRepository implements ModuleMaterialInterface
 {
@@ -35,9 +36,14 @@ class ModuleMaterialRepository extends BaseRepository implements ModuleMaterialI
         return $moduleMaterial;
     }
 
-    public function delete(mixed $id): bool
+    public function delete(mixed $id): mixed
     {
-        $moduleMaterial = $this->show($id);
-        return $moduleMaterial->delete();
+        try {
+            return $this->show($id)->delete();
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1451) return false;
+        }
+
+        return true;
     }
 }
