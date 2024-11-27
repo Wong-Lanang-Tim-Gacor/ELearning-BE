@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\ModuleMaterialController;
+use App\Http\Controllers\QuizzController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,6 @@ Route::prefix('/auth')->group(function () {
     Route::apiResource('courses', CourseController::class);
     Route::apiResource('course-modules', CourseModuleController::class);
     Route::apiResource('module-materials', ModuleMaterialController::class);
+    Route::apiResource('quizzes', QuizzController::class);
+    Route::get('quizzes/course-module/{courseModuleId}', [QuizzController::class, 'getByCourseModule']);
 // });
