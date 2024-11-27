@@ -72,12 +72,9 @@ class QuizzController extends Controller
     {
         $quizzes = $this->quizRepository->getByCourseModule($courseModuleId);
 
-        return response()->json([
-            'meta' => [
-                'status' => 'success',
-                'message' => 'Quizzes retrieved successfully.',
-            ],
-            'data' => $quizzes,
-        ]);
+        return ResponseHelper::success(
+            data: $quizzes,
+            message: 'Quizzes retrieved successfully.'
+        );
     }
 }
